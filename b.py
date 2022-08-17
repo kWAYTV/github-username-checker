@@ -1,4 +1,4 @@
-import requests, os, threading, random, time
+import requests, os, threading, random, time, sys
 from colorama import Fore, Back, Style
 from pystyle import Colors, Colorate, Center
 
@@ -12,6 +12,7 @@ error = 0
 proxyDebug = False
 os.system(f"title GithubUsername Checker - Starting...")
 clear()
+
 
 # Vanity Generator Logo
 logo = """
@@ -29,7 +30,10 @@ def check():
     global count, free, taken, ratelimited, error
     session = requests.Session()
     while True:
-        for line in users:
+        for line in users: 
+            if len(line) < 3:
+                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RED}{line}{Fore.RESET} is too short! Skipping...")
+                continue
             proxy = random.choice(open("proxies.txt","r").read().splitlines()); proxyDict = {"http": f"http://{proxy}"}
             if proxyDebug == True:
                 print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.GREEN}{proxyDict}{Fore.RESET}")
@@ -52,7 +56,12 @@ def check():
                 with open ("ratelimited.txt", "a") as f:
                     f.write(line + "\n")
                     ratelimited += 1
-                time.sleep(30)
+                for i in range(30,0,-1):
+                    sys.stdout.write(str(i)+' ')
+                    sys.stdout.flush()
+                    time.sleep(1)
+                print(f"\n{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Continuing!")
+                continue
             else:
                 print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Error: " + line)
                 with open ("error.txt", "a") as f:
@@ -67,9 +76,6 @@ print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Found {Fore.GREE
 try:
     while True:
         check()
-        print(f"{Fore.RED}[{Fore.RESET}-{Fore.RED}] {Fore.RESET}Exiting.")
-        time.sleep(1)
-        exit()
 except KeyboardInterrupt:
     clear()
     print(f"{Fore.RED}[{Fore.RESET}-{Fore.RED}] {Fore.RESET}Exiting. If it keeps, just close the program.")
