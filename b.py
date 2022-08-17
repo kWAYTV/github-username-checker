@@ -16,7 +16,8 @@ free = 0
 taken = 0
 ratelimited = 0
 error = 0
-proxyDebug = False
+proxyDebug = True
+proxyless = False
 os.system(f"title GithubUsername Checker - Starting...")
 clear()
 
@@ -41,12 +42,15 @@ def check():
             if len(line) < 3:
                 print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RED}{line}{Fore.RESET} is too short! Skipping...")
                 continue
-            proxy = random.choice(open("proxies.txt","r").read().splitlines()); proxyDict = {"http": f"http://{proxy}"}
-            if proxyDebug == True:
-                print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.MAGENTA}{proxyDict}{Fore.RESET}")
-            else:
-                pass
-            r = session.get(f'https://www.github.com/{line}')
+            if proxyless == True:
+                r = session.get(f'https://www.github.com/{line}')
+            elif proxyless == False:
+                proxy = random.choice(open("proxies.txt","r").read().splitlines()); proxyDict = {"http": f"http://{proxy}"}
+                r = session.get(f'https://www.github.com/{line}', proxies = proxyDict)
+                if proxyDebug == True:
+                    print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.MAGENTA}{proxyDict}{Fore.RESET}")
+                else:
+                    pass
             count += 1
             if r.status_code == 200:
                 print(f"{Fore.RED}[{Fore.RESET}+{Fore.RED}] {Fore.RESET}Taken: {Fore.RED}" + line + f"{Fore.RESET}")
