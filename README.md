@@ -7,3 +7,7 @@
 # Previews
 ![Menu](https://github.com/kWAYTV/github-username-checker/blob/main/previews/menu.png?raw=true)
 ![Checking](https://github.com/kWAYTV/github-username-checker/blob/main/previews/checking.png?raw=true)
+# Links
+[Discord](https://discord.gg/kws)<br />
+[Website](https://kwayservices.top)<br />
+[Telegram](https://t.me/kwaytv)<br />
