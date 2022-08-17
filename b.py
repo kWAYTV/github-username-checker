@@ -68,10 +68,6 @@ def check():
                 continue
             if proxyless == True:
                 r = session.get(f'https://www.github.com/{line}')
-                if proxyDebug == True:
-                    print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.MAGENTA}{proxyDict}{Fore.RESET}")
-                else:
-                    pass
             elif proxyless == False:
                 proxy = random.choice(open("proxies.txt","r").read().splitlines()); proxyDict = {"http": f"http://{proxy}"}
                 r = session.get(f'https://www.github.com/{line}', proxies = proxyDict)
