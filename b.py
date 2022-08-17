@@ -36,23 +36,23 @@ def check():
                 continue
             proxy = random.choice(open("proxies.txt","r").read().splitlines()); proxyDict = {"http": f"http://{proxy}"}
             if proxyDebug == True:
-                print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.GREEN}{proxyDict}{Fore.RESET}")
+                print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Using proxy: {Fore.MAGENTA}{proxyDict}{Fore.RESET}")
             else:
                 pass
             r = session.get(f'https://www.github.com/{line}')
             count += 1
             if r.status_code == 200:
-                print(f"{Fore.RED}[{Fore.RESET}+{Fore.RED}] {Fore.RESET}Taken: " + line)
+                print(f"{Fore.RED}[{Fore.RESET}+{Fore.RED}] {Fore.RESET}Taken: {Fore.RED}" + line + f"{Fore.RESET}")
                 with open ("taken.txt", "a") as f:
                     f.write(line + "\n")
                     taken += 1
             elif r.status_code == 404:
-                print(f"{Fore.GREEN}[{Fore.RESET}-{Fore.GREEN}] {Fore.RESET}Free: "+ line)
+                print(f"{Fore.GREEN}[{Fore.RESET}-{Fore.GREEN}] {Fore.RESET}Free: {Fore.GREEN}"+ line + f"{Fore.RESET}")
                 with open ("free.txt", "a") as f:
                     f.write(line + "\n")
                     free += 1
             elif r.status_code == 429:
-                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Ratelimited: " + line + ". Sleeping for 30 seconds...")
+                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Ratelimited: {Fore.YELLOW}" + line + f"{Fore.RESET}. Sleeping for {Fore.RED}30{Fore.RESET} seconds...")
                 with open ("ratelimited.txt", "a") as f:
                     f.write(line + "\n")
                     ratelimited += 1
@@ -60,10 +60,10 @@ def check():
                     sys.stdout.write(str(i)+' ')
                     sys.stdout.flush()
                     time.sleep(1)
-                print(f"\n{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Continuing!")
+                print(f"\n{Fore.GREEN}[{Fore.RESET}!{Fore.GREEN}] {Fore.RESET}Continuing{Fore.GREEN}!{Fore.RESET}")
                 continue
             else:
-                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Error: " + line)
+                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Error: {Fore.RED}" + line + f"{Fore.RESET}")
                 with open ("error.txt", "a") as f:
                     f.write(line + "\n")
                     error += 1
@@ -72,7 +72,7 @@ def check():
 
 clear()
 printLogo()
-print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Found {Fore.GREEN}{len(users)}{Fore.RESET} accounts to check.")
+print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Found {Fore.YELLOW}{len(users)}{Fore.RESET} accounts to check.")
 try:
     while True:
         check()
