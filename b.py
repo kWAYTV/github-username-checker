@@ -3,7 +3,14 @@ from colorama import Fore, Back, Style
 from pystyle import Colors, Colorate, Center
 
 clear = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear") # Don't touch this
-users = open('check.txt', 'r').read().split('\n')
+# create check.txt if it doesn't exist, if it does, read and split lines into users list
+if not os.path.exists("check.txt"):
+    with open("check.txt", "w") as f:
+        f.write("")
+else:
+    with open("check.txt", "r") as f:
+        users = f.read().splitlines()
+
 count = 0
 free = 0
 taken = 0
@@ -72,6 +79,12 @@ def check():
 
 clear()
 printLogo()
+if os.stat("check.txt").st_size == 0:
+    clear()
+    print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}No usernames in check.txt! Exiting...")
+    os.system(f"title Github Username Checker - check.txt is empty! Exiting...")
+    time.sleep(1)
+    sys.exit()
 print(f"{Fore.MAGENTA}[{Fore.RESET}!{Fore.MAGENTA}] {Fore.RESET}Found {Fore.YELLOW}{len(users)}{Fore.RESET} accounts to check.")
 try:
     while True:
